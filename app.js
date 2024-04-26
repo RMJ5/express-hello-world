@@ -1,6 +1,21 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
+// const pgp = require('pg-promise')(/* options */)
+// const db = pgp('postgres://rmj:3tCTnbNHSv4HeIIeuMv8kdbxDJ91s0PY@dpg-coll1pa1hbls7390qcs0-a.frankfurt-postgres.render.com/maindb_xat8')
+
+const db = require('./db');
+
+app.get('/fromdb', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM visit');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.get("/", (req, res) => res.type('html').send(html));
 
@@ -8,6 +23,14 @@ const server = app.listen(port, () => console.log(`Example app listening on port
 
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
+
+// db.one('SELECT $1 AS value', 123)
+//   .then((data) => {
+//     console.log('DATA:', data.value)
+//   })
+//   .catch((error) => {
+//     console.log('ERROR:', error)
+//   })
 
 const html = `
 <!DOCTYPE html>
