@@ -5,7 +5,8 @@ const pool = new Pool({
   password: process.env.DBPASS,
   host: 'dpg-coll1pa1hbls7390qcs0-a.frankfurt-postgres.render.com',
   port: 5432, // default Postgres port
-  database: 'maindb_xat8'
+  database: 'maindb_xat8',
+  ssl: true
 });
 
 module.exports = {
